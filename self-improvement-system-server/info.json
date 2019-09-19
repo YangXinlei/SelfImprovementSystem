@@ -1,0 +1,13 @@
+{
+    "books":[
+      {
+        "name":"程序员的自我修养",
+        "pages":459,
+        "current":99,
+        "type":"tech"
+      }
+    ],
+    "blogs":1,
+    "commits":2,
+    "generalStudy":15
+  }
