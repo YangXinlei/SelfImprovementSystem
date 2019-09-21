@@ -5,9 +5,11 @@ const {exec} = require('child_process')
 const app = express()
 const port = 4000
 const infoJsonFile = 'info.json'
-const infoJsonDatabase = './sis_database/info.json'
-const rewardFile = './sis_database/reward.json'
-const databaseUpdateScript = './sis_database/update.sh'
+const dir = '/root/projects/SelfImprovementSystem/self-improvement-system-server/'
+// const dir = './'
+const infoJsonDatabase = dir +'sis_database/info.json'
+const rewardFile = dir + 'sis_database/reward.json'
+const databaseUpdateScript = dir + 'sis_database/update.sh'
 var currentInfoJson;
 var rewards = JSON.parse(fs.readFileSync(rewardFile));
 
