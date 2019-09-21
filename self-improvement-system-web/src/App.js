@@ -44,8 +44,8 @@ class App extends React.Component {
     });
   }
 
-  updateInfo() {
-    request.post(updateInfoUrl, { body: this.state.info, json: true}, (err, res, body) => {
+  updateInfo(info) {
+    request.post(updateInfoUrl, { body: info || this.state.info, json: true}, (err, res, body) => {
       console.log(body);
       this.setState({info:body});
     });
@@ -84,7 +84,7 @@ class App extends React.Component {
                   onAfterChange={(value) => {
                     const { info } = this.state;
                     info.books[index].current = value;
-                    this.updateInfo();
+                    this.updateInfo(info);
                   }}
                 />
             </Flex.Item>
@@ -115,13 +115,14 @@ class App extends React.Component {
               if (!info) {
                 return;
               }
+              let newInfo = {
+                ...info,
+                blogs: info.blogs + 1
+              }
               this.setState({
-                info: {
-                  ...info,
-                  blogs: info.blogs + 1
-                }
+                info: newInfo
               });
-              this.updateInfo();
+              this.updateInfo(newInfo);
             }}>{blogs || 0}</Button>
 
             <WhiteSpace size="lg"/>
@@ -131,13 +132,14 @@ class App extends React.Component {
               if (!info) {
                 return;
               }
+              let newInfo = {
+                ...info,
+                commits: info.commits + 1
+              }
               this.setState({
-                info: {
-                  ...info,
-                  commits: info.commits + 1
-                }
+                info: newInfo
               });
-              this.updateInfo();
+              this.updateInfo(newInfo);
             }}>{commits || 0}</Button>
 
             <WhiteSpace size="lg"/>
@@ -147,13 +149,14 @@ class App extends React.Component {
               if (!info) {
                 return;
               }
+              let newInfo = {
+                ...info,
+                generalStudy: info.generalStudy + 5
+              }
               this.setState({
-                info: {
-                  ...info,
-                  generalStudy: info.generalStudy + 5
-                }
+                info: newInfo
               });
-              this.updateInfo();
+              this.updateInfo(newInfo);
             }}>{generalStudy || 0}</Button>
             <WhiteSpace size="lg"/>
             <div className="sub-title">gain</div>
