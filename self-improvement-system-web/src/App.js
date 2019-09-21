@@ -30,7 +30,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      info: null,
+      info: {},
     }
   }
 
@@ -44,19 +44,20 @@ class App extends React.Component {
   }
 
   updateInfo() {
-    request.post(updateInfoUrl, {form: this.state.info, json:true}, (err, res, body) => {
+    request.post(updateInfoUrl, { body: this.state.info, json: true}, (err, res, body) => {
       console.log(body);
     });
   }
 
-  createBookCards(books) {
+  createBookCards() {
+    const { books } = this.state.info || {};
     if (!books || !books.length) {
       return;
     }
     let bookCards = [];
     books.forEach((book, index) =>{
       bookCards.push((
-        <div>
+        <React.Fragment key={index}>
         <Card>
           <Card.Header title={`《${book.name}》`}/>
           <Card.Body>
@@ -68,12 +69,17 @@ class App extends React.Component {
               min={0}
               max={book.pages}
               onChange={(value) => {
-                let info = this.state.info;
-                info.books[index].current = value;
+                const { info } = this.state;
+                const currentBook = {
+                  ...info.books[index],
+                  current: value
+                };
+                info.books[index] = currentBook;
                 this.setState({info : info});
               }}
               onAfterChange={(value) => {
-                this.info.books[index].current = value;
+                const { info } = this.state;
+                info.books[index].current = value;
                 this.updateInfo();
               }}
             />
@@ -82,16 +88,16 @@ class App extends React.Component {
           <Card.Footer extra={this.state.info.books[index].current} />
         </Card>
         <WhiteSpace size="lg"/>
-        </div>
+        </React.Fragment>
       ));
     })
     return bookCards;
   }
 
   render() {
+    const { blogs, generalStudy, gain, commits } = this.state.info || {};
     return (
       <div className="App">
-        <body>
           <WingBlank>
             <div className="sub-title">进行中</div>
             <WhiteSpace size="lg"/>
@@ -103,13 +109,17 @@ class App extends React.Component {
               if (!info) {
                 return;
               }
-              info.blogs += 1;
-              this.setState({info:info});
-            }}>{`abc${this.state.info ? this.state.info.blogs : 0}`}</Button>
+              this.setState({
+                info: {
+                  ...info,
+                  blogs: info.blogs + 1
+                }
+              });
+            }}>{blogs || 0}</Button>
 
             <WhiteSpace size="lg"/>
             <div className="sub-title">commit输出</div>
-            <Button className="round-button" disabled>{`abc${this.state.info ? this.state.info.commits : "0"}`}</Button>
+            <Button className="round-button" disabled>{commits || 0}</Button>
 
             <WhiteSpace size="lg"/>
             <div className="sub-title">general study</div>
@@ -120,13 +130,12 @@ class App extends React.Component {
               }
               info.generalStudy += 5;
               this.setState({info:info});
-            }}>{`abc${this.state.info ? this.state.info.generalStudy : "0"}`}</Button>
+            }}>{generalStudy || 0}</Button>
             <WhiteSpace size="lg"/>
             <div className="sub-title">gain</div>
-            <Button className="round-button" disabled>￥{`abc${this.state.info ? this.state.info.gain : "0"}`}</Button>
+            <Button className="round-button" disabled>￥{gain || 0}</Button>
             
           </WingBlank>
-        </body>
       </div>
     );
   }
