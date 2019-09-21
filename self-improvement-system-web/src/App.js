@@ -46,6 +46,7 @@ class App extends React.Component {
   updateInfo() {
     request.post(updateInfoUrl, { body: this.state.info, json: true}, (err, res, body) => {
       console.log(body);
+      this.setState({info:body});
     });
   }
 
@@ -61,29 +62,33 @@ class App extends React.Component {
         <Card>
           <Card.Header title={`《${book.name}》`}/>
           <Card.Body>
-            <div>
-            <Slider
-              style={{ marginLeft: 30, marginRight: 30 }}
-              defaultValue={0}
-              value={book.current}
-              min={0}
-              max={book.pages}
-              onChange={(value) => {
-                const { info } = this.state;
-                const currentBook = {
-                  ...info.books[index],
-                  current: value
-                };
-                info.books[index] = currentBook;
-                this.setState({info : info});
-              }}
-              onAfterChange={(value) => {
-                const { info } = this.state;
-                info.books[index].current = value;
-                this.updateInfo();
-              }}
-            />
-            </div>
+            <Flex style={{textAlign:"center", height:30}}>
+              <Flex.Item style={{fontSize:15, marginLeft:0}}>0</Flex.Item>
+              <Flex.Item style={{flex:15}}>
+                <Slider
+                  style={{ marginRight: 8 }}
+                  defaultValue={0}
+                  value={book.current}
+                  min={0}
+                  max={book.pages}
+                  onChange={(value) => {
+                    const { info } = this.state;
+                    const currentBook = {
+                      ...info.books[index],
+                      current: value
+                    };
+                    info.books[index] = currentBook;
+                    this.setState({info : info});
+                  }}
+                  onAfterChange={(value) => {
+                    const { info } = this.state;
+                    info.books[index].current = value;
+                    this.updateInfo();
+                  }}
+                />
+            </Flex.Item>
+            <Flex.Item style={{fontSize:15, marginLeft:0}}>{book.pages}</Flex.Item>
+            </Flex>
           </Card.Body>
           <Card.Footer extra={this.state.info.books[index].current} />
         </Card>
@@ -115,11 +120,24 @@ class App extends React.Component {
                   blogs: info.blogs + 1
                 }
               });
+              this.updateInfo();
             }}>{blogs || 0}</Button>
 
             <WhiteSpace size="lg"/>
             <div className="sub-title">commit输出</div>
-            <Button className="round-button" disabled>{commits || 0}</Button>
+            <Button className="round-button" onClick={()=>{
+              let info = this.state.info;
+              if (!info) {
+                return;
+              }
+              this.setState({
+                info: {
+                  ...info,
+                  commits: info.commits + 1
+                }
+              });
+              this.updateInfo();
+            }}>{commits || 0}</Button>
 
             <WhiteSpace size="lg"/>
             <div className="sub-title">general study</div>
@@ -128,12 +146,17 @@ class App extends React.Component {
               if (!info) {
                 return;
               }
-              info.generalStudy += 5;
-              this.setState({info:info});
+              this.setState({
+                info: {
+                  ...info,
+                  generalStudy: info.generalStudy + 5
+                }
+              });
+              this.updateInfo();
             }}>{generalStudy || 0}</Button>
             <WhiteSpace size="lg"/>
             <div className="sub-title">gain</div>
-            <Button className="round-button" disabled>￥{gain || 0}</Button>
+            <Button className="round-button" disabled style={{fontSize:20}}>￥{gain || 0}</Button>
             
           </WingBlank>
       </div>

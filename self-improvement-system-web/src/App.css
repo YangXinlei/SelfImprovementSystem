@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  text-align: left;
 }
 
 .App-logo {
@@ -44,10 +44,10 @@
 
 .round-button {
   color:orange;
-  font-size: 30px;
-  width: 80px;
-  height: 80px;
+  font-size: 25px;
+  width: 100px;
+  height: 100px;
   margin: 0 auto;
   border-radius: 50%;
-  line-height: 80px;
+  line-height: 100px;
 }
