@@ -1,0 +1,3 @@
+[submodule "self-improvement-system-server/sis_database"]
+	path = self-improvement-system-server/sis_database
+	url = git@github.com:YangXinlei/sis_database.git

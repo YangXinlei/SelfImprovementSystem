@@ -51,7 +51,9 @@ app.post('/updateinfo', (req, res) => {
     fs.writeFileSync(infoJsonFile, newInfoJson);
     fs.copyFileSync(infoJsonFile, infoJsonDatabase);
     currentInfoJson = newInfoJson;
-    exec(databaseUpdateScript);
+    exec(databaseUpdateScript, (err, stdout, stderr) => {
+        console.log(`update with error: ${err}, stdout: ${stdout}, stderr: ${stderr}`);
+    });
 
     res.send(currentInfoJson);
 })
