@@ -33,17 +33,17 @@ app.get('/info', (req, res) => {
 
 app.post('/updateinfo', (req, res) => {
     if (!req.body) {
-        res.send('body is empty');
+        res.send(currentInfoJson);
         return;
     }
     let newInfoJson = JSON.stringify(req.body);
     if (currentInfoJson === newInfoJson) {
-        res.send('no-op');
+        res.send(currentInfoJson);
         return;
     }
 
     if (!isValidInfo(req.body)) {
-        res.send('not valid');
+        res.send(currentInfoJson);
         return;
     }
 
