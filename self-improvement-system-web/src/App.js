@@ -4,7 +4,8 @@ import { Flex, Card, WingBlank, WhiteSpace, Slider, Button } from 'antd-mobile';
 import 'antd-mobile/dist/antd-mobile.css'
 import './App.css';
 
-const host = 'http://localhost:4000';
+// const host = 'http://localhost:4000';
+const host = 'http://39.98.59.86:31117';
 const infoUrl = `${host}/info`;
 const updateInfoUrl = `${host}/updateinfo`;
 
